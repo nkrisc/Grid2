@@ -26,7 +26,30 @@ end, {
 Grid2Options:RegisterStatusOptions("poweralt", "mana", Grid2Options.MakeStatusColorOptions, {
 	titleIcon = "Interface\\Icons\\Inv_potion_34"
 })
-Grid2Options:RegisterStatusOptions("power",    "mana", Grid2Options.MakeStatusColorOptions, {
+Grid2Options:RegisterStatusOptions("power",    "mana", function(self, status, options, optionParams)
+	self:MakeStatusColorOptions(status, options, optionParams)
+	self:MakeHeaderOptions(options, "Spec Selection")
+	options.specsToggle = {
+		type = "toggle",
+		order = 200,
+		width = "full",
+		name = "Show power for all specs",
+		tristate = false,
+		get = function () return status.dbx.specsToggle end,
+		set = function (_, v)
+			status.dbx.specsToggle = v or nil
+		end,
+	}
+	options.unitClassSpec = {
+		type = "multiselect",
+		order = 300,
+		name = "Choose specs",
+		get = function(_, key) return status.dbx.unitClassSpec[key] ~= nil end,
+		set = function(_, key, value)
+			status.dbx.unitClassSpec[key] = value or nil
+		values = self:MakeClassSpecValuesList()
+	}
+end, {
 	color1 = L["Mana"],
 	colorDesc1 = L["Mana"],
 	color2 = L["Rage"],

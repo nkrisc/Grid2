@@ -171,7 +171,12 @@ function Power:UpdateUnitPower(unit, powerType)
 end
 
 function Power:IsActive(unit)
-  return UnitIsPlayer(unit)
+	if self.dbx.showForAllSpecs then
+  		return UnitIsPlayer(unit)
+	else
+		-- TODO: test unit spec
+		return false
+	end
 end
 
 function Power:GetPercent(unit)
@@ -223,5 +228,6 @@ Grid2:DbSetStatusDefaultValue( "power", {type = "power", colorCount = 10,
 	color7 = {r=0.00, g=0.50, b=1.00, a=1}, -- maelstrom
 	color8 = {r=0.30, g=0.52, b=0.90, a=1}, -- astral power
 	color9 = {r=0.788, g=0.259, b=0.992, a=1}, -- fury
-	color10 = {r=1.00, g=0.61, b=0.00, a=1} -- pain
+	color10 = {r=1.00, g=0.61, b=0.00, a=1}, -- pain
+	showForAllSpecs = true
 })

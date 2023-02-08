@@ -594,4 +594,20 @@ do
 	function Grid2Options:ShowEditDialog(message, text, funcAccept, funcCancel)
 		ShowDialog(message, text or "", funcAccept, funcCancel or Grid2.Dummy)
 	end
+
+	function Grid2Options:MakeClassSpecValuesList()
+		local CLASSES_SPECS = {}
+		for classID = 1, 30 do
+			local info = C_CreatureInfo.GetClassInfo(classID)
+			if info then
+				local class = info.classFile
+				local coord = CLASS_ICON_TCOORDS[class]
+				for index=Grid2Options.GetNumSpecializationsForClassID(classID), 1,-1 do
+					local _, specName, _, specIcon = Grid2Options.GetSpecializationInfoForClassID(classID, index)
+					CLASSES_SPECS[class..index] = string.format("|TInterface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES:0:0:0:0:256:256:%f:%f:%f:%f:0|t|T%s:0|t%s",coord[1]*256,coord[2]*256,coord[3]*256,coord[4]*256,specIcon,specName)
+				end
+			end
+		end
+		return CLASSES_SPECS
+	end
 end
